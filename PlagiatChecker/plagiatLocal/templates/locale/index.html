@@ -1,0 +1,192 @@
+{% extends 'main-layout.html' %}
+    {% load static %} 
+{% block content %}
+<!-- breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-primary text-white-all">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fas fa-tachometer-alt"></i>Acceuil</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#"><i class="far fa-file"></i>Plagiat en local</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    {% if errors == '1' %}
+    <div class="alert alert-danger" role="alert">
+        Veiller Uploader un fichier du bon type 
+    </div>  
+    {% endif %}
+
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          
+        
+        <form enctype="multipart/form-data">
+              <label class="form-label" for="customFile"> Upload une liste de fichier </label>
+
+              <div class="input-group">
+                <div class="custom-file">
+                  <input  id="fileToUpload"  type="file" multiple="multiple" required class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                  <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                </div>
+    
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-primary" type="button" id="inputGroupFileAddon04">Upload</button>
+                  </div>
+              
+              </div>
+
+              
+              <div class="box" id="imgPreview"></div>
+        </form> 
+      </div> 
+  
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                    
+                <div class="tab-content col-md-12">
+                </br>
+                    <h3> Importation du fichier</h3>
+                  </br>
+                    <nav>
+                        <div class="nav nav-tabs " id="nav-tab" role="tablist">
+                          <button class="btn btn-outline-primary"  id="nav-home-tab" data-toggle="tab" data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Upload (.pdf)</button>
+                          <button class="btn btn-outline-primary" id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Upload (.txt,.py,...)</button>
+                        </div>
+                      </nav>
+                      <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            
+                            <form method = "POST"  action = "{% url 'envoifichier' %}"  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <label class="form-label" for="customFile"> Upload (.pdf)</label>
+        
+                                <div class="input-group">
+                                  <div class="custom-file">
+                                    <input  id="nomdoc" name="nomdoc" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" >
+                                    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                  </div>
+                      
+                                    <div class="input-group-append">
+                                      <button type="submit" class="btn btn-outline-primary" type="button" id="inputGroupFileAddon04">Upload</button>
+                                    </div>
+                                
+                                </div>
+        
+                                
+                            </form>
+                        
+                        </div> 
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" >
+                                          
+                            <form method = "POST"  action = "{% url 'envoifichier2' %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <label class="form-label" for="customFile"> Upload (.txt,.py,...)</label>
+        
+                                <div class="input-group">
+                                  <div class="custom-file">
+                                    <input id="nomdoc" name="nomdoc" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" required>
+                                    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                  </div>
+                      
+                                    <div class="input-group-append">
+                                      <button type="submit" class="btn btn-outline-primary" type="button" id="inputGroupFileAddon04">Upload</button>
+                                    </div>
+                                
+                                </div>
+        
+                            </form>
+                      
+                        
+                        </div>
+                      </div>
+        
+                </div>
+            </div>
+                 
+
+        
+        </br>
+        
+     
+      </div>
+      </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">// <![CDATA[
+  function createThumbnail(file) {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      /*
+       * "L'objet FileReader permet aux applications Web de
+       * lire le contenu des fichiers
+       * (ou des tampons de données brutes)
+       * stockés sur l'ordinateur de l'utilisateur de manière asynchrone"
+       *
+       * https://developer.mozilla.org/fr/docs/DOM/FileReader
+       *
+       * Asynchrone d'ou l'obligation du reader.onload
+       * (fin du chargemen du File ) avant de lancer des traitements
+       * sur ce reader
+       *
+       */
+       
+      reader.onload = function(e) {
+          var imgElement = document.createElement('img');
+          imgElement.style.maxWidth = '150px';
+          imgElement.style.maxHeight = '150px';
+          /*
+           * Plus lisble qu'un this.result que je trouve
+           * particulièrement illisible
+           */
+          imgElement.src = e.target.result;
+          document.getElementById('imgPreview').appendChild(imgElement);
+      }
+  }
+
+  document.querySelector('#fileToUpload').onchange = function() {
+      console.log("Stat to upload");
+      var filesList = this.files;
+      console.log("List Files");
+      for (var i = 0, filesListLength = filesList.length; i < filesListLength; i++) {
+          useFile = filesList[i];
+          console.log("File num : " + i + " Name : " + useFile.name + " Size : " + useFile.size + " Type : " + useFile.type);
+          createThumbnail(useFile);
+          upload(useFile);
+      }
+  }
+
+  function upload(file) {
+    var xhr = new XMLHttpRequest();
+    var csrfToken = document.cookie.match(/csrftoken=([^ ;]+)/)[1];
+    xhr.open('POST', "{% url 'uploadfichier'  %}", true);
+    xhr.setRequestHeader('X-CSRFToken', csrfToken);
+    var param = this.file;
+    var formData = new FormData();
+    formData.append("thefile", file);
+    xhr.send(formData);
+ 
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == xhr.DONE) {
+            console.log('Upload Done / response '+xhr.responseText);
+        }
+    };
+ 
+}
+
+
+// ]]></script>
+
+{% endblock %} 
+
+
+
+

@@ -1,0 +1,58 @@
+{% extends 'main-layout.html' %}
+    {% load static %} 
+{% block content %}
+    <!-- breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-primary text-white-all">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fas fa-tachometer-alt"></i>Acceuil</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#"><i class="far fa-file"></i>Plagiat de 02 Documents</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <h1></h1>
+    
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <!-- <div class="card">
+                <div class="card-header">
+                     <h4>EKobo et ferdinand</h4>
+                </div>
+            <div class="card-body">
+                <p>
+                    -Plagiat entre 2 documents (PHP,java,Doc,PDF,js et autre)
+                    Ici vous allez comparer 02 document  et retouner un rapport en PDF et un pourcentage de similitude
+                </p>
+            </div> -->
+            <h2 class="mb-4">Détection de similitude entre deux documents de meme nature</h2>
+            <form method="post" action="{% url 'detect_similarity' %}" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="file1">Sélectionnez le fichier du Document 1:</label>
+                    <input type="file" class="form-control-file" name="file1" accept=".c, .txt, .py, .pdf" required>
+                    <div class="invalid-feedback">
+                        Veuillez sélectionner un fichier pour le Document 1.
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label for="file2">Sélectionnez le fichier du Document 2:</label>
+                    <input type="file" class="form-control-file" name="file2" accept=".c, .txt, .py, .pdf" required>
+                    <div class="invalid-feedback">
+                        Veuillez sélectionner un fichier pour le Document 2.
+                    </div>
+                </div>
+    
+                <button type="submit" class="btn btn-primary">Détecter la similitude</button>
+            </form>
+    
+            
+        </div>
+
+          </div> 
+        </div>
+      </div>
+{% endblock %}

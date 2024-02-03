@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e 
+
+source .env/bin/activate
+python PlagiatChecker/manage.py migrate
+
+if [$l == 'gunicorn']; then 
+
+    exec gunicorn django_invoice.wsgi:application -b 0.0.0.0:8000
+else
+    exec python PlagiatChecker/manage.py runserver 0.0.0.0:8000
+
+fi
