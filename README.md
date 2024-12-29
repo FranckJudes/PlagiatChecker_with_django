@@ -1,14 +1,59 @@
-# PlagiatChecker with  Django(Python) 
 
+# PlagiatChecker with Django
 
-#### HOW TO RUN THE App
+**PlagiatChecker** est une application web développée en Python utilisant le framework Django, conçue pour détecter le plagiat dans des documents.
 
-1. Clone the project on github to its Local machine
-2. Move to the root of the project (the `$ cd PlagiatChecker`/ directory)
-3. Activate environment virtual `$ source .env/bin/activate`
-4. Installation of packages is necessary using the command: `$ pip install -r requirements.txt`
-5. Then `$ python manage.py makemigrations`
-6. Then `$ python manage.py migrate`
-7. Then:`$ python manage.py runserver`
-8. Then Create Accounts and login 
+## Fonctionnalités Principales
+
+- **Téléversement de Documents** : Les utilisateurs peuvent téléverser des documents pour analyse.
+
+- **Détection de Plagiat** : L'application analyse les documents téléversés pour identifier des similitudes avec des sources existantes, détectant ainsi des cas potentiels de plagiat.
+
+- **Système de Scoring** : Elle génère des scores de similarité pour quantifier l'originalité des documents.
+
+- **Présentation des Résultats** : Les résultats détaillés sont présentés, indiquant les pourcentages de similarité et les sections concernées.
+
+## Technologies Utilisées
+
+- **Backend** : Django (Python)
+
+- **Frontend** : HTML, CSS, JavaScript
+
+- **Base de Données** : SQLite (par défaut avec Django)
+
+## Installation et Exécution
+
+Pour exécuter l'application localement :
+
+1. **Cloner le dépôt** :
+   ```bash
+   git clone https://github.com/FranckJudes/PlagiatChecker_with_django.git
+   ```
+
+2. **Naviguer vers le répertoire du projet** :
+   ```bash
+   cd PlagiatChecker_with_django/PlagiatChecker
+   ```
+
+3. **Activer l'environnement virtuel** :
+   ```bash
+   source .env/bin/activate
+   ```
+
+4. **Installer les dépendances** :
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. **Appliquer les migrations** :
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+6. **Lancer le serveur de développement** :
+   ```bash
+   python manage.py runserver
+   ```
+
 
